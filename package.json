@@ -1,0 +1,31 @@
+{
+  "name": "blank-hooks-template",
+  "version": "0.1.0",
+  "private": true,
+  "author": "James Shapiro <james@jamesshapiro.com>",
+  "dependencies": {
+    "eslint": "8.49.0",
+    "eslint-config-react-app": "7.0.1",
+    "new-component": "5.0.2",
+    "parcel": "2.9.2",
+    "process": "0.11.10",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "rimraf": "5.0.1",
+    "styled-components": "^6.1.8"
+  },
+  "scripts": {
+    "predev": "rimraf .parcel-cache dist",
+    "dev": "parcel public/index.html",
+    "build": "parcel build public/index.html",
+    "new-component": "new-component",
+    "build:upload-to-aws": "aws s3 sync dist s3://private-demo-2.weakerpotions.com --delete --size-only && aws s3 cp dist/index.html s3://private-demo-2.weakerpotions.com/index.html",
+    "build:invalidate-cf-cache": "aws cloudfront create-invalidation --distribution-id ETMRPLR57SABM --paths '/*'",
+    "build:clean-build-files": "rm -rf dist/",
+    "postbuild": "npm run build:upload-to-aws && npm run build:invalidate-cf-cache && npm run build:clean-build-files"
+  },
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  }
+}
